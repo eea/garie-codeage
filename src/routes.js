@@ -1,29 +1,16 @@
 var Redmine = require('node-redmine');
 
-var hostname = process.env.WIKI_SERVER;
-var config = {
-    apiKey: process.env.WIKI_APIKEY
-}
-
-var redmine = new Redmine(hostname, config);
-
-var dump_obj = function(project) {
-    console.log('Dumping project:');
-    for (var item in project) {
-      console.log('  ' + item + ': ' + JSON.stringify(project[item]));
-    }
-  };
 
 
 
-function get_all_wiki_pages() {
+function getAllWikiPages(redmine, config_wiki) {
     let all_wiki_pages = [];
     return new Promise( (resolve, reject) => {
-        redmine.wiki_by_project_id(process.env.WIKI_PROJECT, async (err, data) => {
+        redmine.wiki_by_project_id(config_wiki.WIKI_PROJECT, async (err, data) => {
             if (err) reject(err);
         
-            for (var i in data.wiki_pages) {
-                all_wiki_pages.push(data.wiki_pages[i]);                
+            for (let page of data.wiki_pages) {
+                all_wiki_pages.push(page);                
             }
             resolve(all_wiki_pages);
             
@@ -33,30 +20,30 @@ function get_all_wiki_pages() {
     
 }
 
-function get_pages_map(all_wiki_pages) {
-    const pages_map = {};
+function orderTitles(all_wiki_pages, config_wiki) {
+    const titles_dict = {};
 
     for (let i = 0; i < all_wiki_pages.length; i++) {
         if ( all_wiki_pages[i].parent !== undefined && 
-             all_wiki_pages[i].parent.title === process.env.WIKI_PAGE) {
-            pages_map[all_wiki_pages[i].title] = [];
+             all_wiki_pages[i].parent.title === config_wiki.WIKI_PAGE) {
+            titles_dict[all_wiki_pages[i].title] = [];
         }
     }
 
-    for (let key in pages_map) {
+    for (let key in titles_dict) {
         for (let i = 0; i < all_wiki_pages.length; i++) {
             if (all_wiki_pages[i].parent !== undefined && 
                 all_wiki_pages[i].parent.title === key) {
-                pages_map[key].push(all_wiki_pages[i].title);
+                titles_dict[key].push(all_wiki_pages[i].title);
             }
         }
     }
-    return pages_map;
+    return titles_dict;
 }
 
-function get_page_content(page) {
+function getPageContent(page, redmine, config_wiki) {
     return new Promise( (resolve, reject) => {
-        redmine.wiki_by_title(process.env.WIKI_PROJECT, page, {}, function(err, data) {
+        redmine.wiki_by_title(config_wiki.WIKI_PROJECT, page, {}, function(err, data) {
             if (err) {
                 resolve({page: ""});
                 return;
@@ -67,11 +54,11 @@ function get_page_content(page) {
 }
 
 
-function get_wiki_content(pages_map) {
+function getWikiContent(titles_dict, redmine, config_wiki) {
     const promises = [];
-    for (let key in pages_map) {
-        for (let page of pages_map[key]) {
-            promises.push(get_page_content(page));
+    for (let key in titles_dict) {
+        for (let page of titles_dict[key]) {
+            promises.push(getPageContent(page, redmine, config_wiki));
         }
     }
 
@@ -80,7 +67,7 @@ function get_wiki_content(pages_map) {
 
 
 
-function structure_content(content, page) {
+function structureContent(content, page) {
     let detailed_content = {};
     detailed_content.page = page;
     detailed_content.services = []; // lista de {service location : deployment repo}
@@ -150,7 +137,7 @@ function structure_content(content, page) {
 }
 
 
-function structure_by_page(content_list) {
+function structureByPage(content_list) {
     let url_map = [];
 
     for (const item of content_list) {
@@ -170,18 +157,25 @@ function structure_by_page(content_list) {
     return url_map;
 }
 
-async function parseWiki() {
-    const all_wiki_pages = await get_all_wiki_pages();
-    const pages_map = get_pages_map(all_wiki_pages);
+async function parseWiki(config_wiki) {
+    const hostname = config_wiki.WIKI_SERVER;
+    const config = {
+        apiKey: config_wiki.WIKI_APIKEY
+    }
 
-    const content = await get_wiki_content(pages_map);
+    const redmine = new Redmine(hostname, config);
+
+    const all_wiki_pages = await getAllWikiPages(redmine, config_wiki);
+    const titles_dict = orderTitles(all_wiki_pages, config_wiki);
+
+    const content = await getWikiContent(titles_dict, redmine, config_wiki);
     let content_list = [];
     for (let key of content) {
         if (key.page.text !== undefined && key.page.title !== undefined) {
-            content_list.push(structure_content(key.page.text, key.page.title));
+            content_list.push(structureContent(key.page.text, key.page.title));
         }
     }
-    return structure_by_page(content_list);
+    return structureByPage(content_list);
 
 }
 

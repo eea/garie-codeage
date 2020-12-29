@@ -19,10 +19,6 @@ services:
             - 3000:3000
         environment:
             - HOST=influxdb
-            - WIKI_APIKEY=3cb7a6c4c70ccf238530782588468b6b211c3403
-            - WIKI_SERVER=https://taskman.devel4cph.eea.europa.eu/
-            - WIKI_PAGE=Applications
-            - WIKI_PROJECT=infrastructure
         depends_on:
             - influxdb
 

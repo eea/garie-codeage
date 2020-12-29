@@ -34,15 +34,11 @@ function parseFile (file) {
     old_percentage = code_age[keys[i]];
   }
   weighted_sum /= 100;
-  // (0, 365 * 2) = (min, max) - limitele in care calculam weighted sum;
+  // (0, 365 * 2) = (min, max) - the limits of weighted sum;
   
   const two_years = 365 * 2;
   weighted_sum = Math.min(weighted_sum, two_years);
   const final_score = 100 * weighted_sum / two_years;
-  if (final_score > 90) {
-    console.log(file);
-  }
-  console.log(final_score);
   return final_score;
 
 }
@@ -86,7 +82,7 @@ const myGetData = async (item) => {
         }
         const { reportDir } = item;
 
-        const options = { script: path.join(__dirname, './my_script.sh'),
+        const options = { script: path.join(__dirname, './script.sh'),
           url: url,
           reportDir: reportDir,
           params: [ delimiter, ...components ],
@@ -106,7 +102,15 @@ const myGetData = async (item) => {
 console.log("Start");
 
 const main = async () => {
-  const url_map = await parseWiki();
+  const config_wiki = {
+    WIKI_APIKEY: config.plugins["code-age"].WIKI_APIKEY,
+    WIKI_SERVER: config.plugins["code-age"].WIKI_SERVER,
+    WIKI_PAGE: config.plugins["code-age"].WIKI_PAGE,
+    WIKI_PROJECT: config.plugins["code-age"].WIKI_PROJECT
+
+  };
+
+  const url_map = await parseWiki(config_wiki);
   
   for (const item of url_map) {
     const obj = {
