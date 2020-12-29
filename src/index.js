@@ -128,9 +128,9 @@ const main = async () => {
   try{
     const { app } = await garie_plugin.init({
       getData: myGetData,
-      db_name:'codeage',
-      plugin_name:'codeage',
-      report_folder_name:'codeage-results',
+      db_name:'code-age',
+      plugin_name:'code-age',
+      report_folder_name:'code-age-results',
       app_root: path.join(__dirname, '..'),
       config:config,
       onDemand: true
