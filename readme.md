@@ -9,7 +9,7 @@
 
 Garie-code-age was developed as a plugin for the [Garie](https://github.com/boyney123/garie) Architecture.
 
-[Garie](https://github.com/boyney123/garie) is an out the box web performance toolkit, and `garie-securityheaders` is a plugin that generates and stores securityheaders data into `InfluxDB`.
+[Garie](https://github.com/boyney123/garie) is an out the box web performance toolkit, and `garie-code-age` is a plugin that generates and stores code age data into `InfluxDB`.
 
 `Garie-code-age` can also be run outside the `Garie` environment and run as standalone.
 
