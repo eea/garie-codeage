@@ -1,12 +1,16 @@
 var Redmine = require('node-redmine');
 
+var hostname = process.env.WIKI_SERVER;
+var config = {
+    apiKey: process.env.WIKI_APIKEY
+}
 
+var redmine = new Redmine(hostname, config);
 
-
-function getAllWikiPages(redmine, config_wiki) {
+function getAllWikiPages() {
     let all_wiki_pages = [];
     return new Promise( (resolve, reject) => {
-        redmine.wiki_by_project_id(config_wiki.WIKI_PROJECT, async (err, data) => {
+        redmine.wiki_by_project_id(process.env.WIKI_PROJECT, async (err, data) => {
             if (err) reject(err);
         
             for (let page of data.wiki_pages) {
@@ -20,12 +24,12 @@ function getAllWikiPages(redmine, config_wiki) {
     
 }
 
-function orderTitles(all_wiki_pages, config_wiki) {
+function orderTitles(all_wiki_pages) {
     const titles_dict = {};
 
     for (let i = 0; i < all_wiki_pages.length; i++) {
         if ( all_wiki_pages[i].parent !== undefined && 
-             all_wiki_pages[i].parent.title === config_wiki.WIKI_PAGE) {
+             all_wiki_pages[i].parent.title === process.env.WIKI_PAGE) {
             titles_dict[all_wiki_pages[i].title] = [];
         }
     }
@@ -41,9 +45,9 @@ function orderTitles(all_wiki_pages, config_wiki) {
     return titles_dict;
 }
 
-function getPageContent(page, redmine, config_wiki) {
+function getPageContent(page) {
     return new Promise( (resolve, reject) => {
-        redmine.wiki_by_title(config_wiki.WIKI_PROJECT, page, {}, function(err, data) {
+        redmine.wiki_by_title(process.env.WIKI_PROJECT, page, {}, function(err, data) {
             if (err) {
                 resolve({page: ""});
                 return;
@@ -54,11 +58,11 @@ function getPageContent(page, redmine, config_wiki) {
 }
 
 
-function getWikiContent(titles_dict, redmine, config_wiki) {
+function getWikiContent(titles_dict) {
     const promises = [];
     for (let key in titles_dict) {
         for (let page of titles_dict[key]) {
-            promises.push(getPageContent(page, redmine, config_wiki));
+            promises.push(getPageContent(page));
         }
     }
 
@@ -157,18 +161,11 @@ function structureByPage(content_list) {
     return url_map;
 }
 
-async function parseWiki(config_wiki) {
-    const hostname = config_wiki.WIKI_SERVER;
-    const config = {
-        apiKey: config_wiki.WIKI_APIKEY
-    }
+async function parseWiki() {
+    const all_wiki_pages = await getAllWikiPages();
+    const titles_dict = orderTitles(all_wiki_pages);
 
-    const redmine = new Redmine(hostname, config);
-
-    const all_wiki_pages = await getAllWikiPages(redmine, config_wiki);
-    const titles_dict = orderTitles(all_wiki_pages, config_wiki);
-
-    const content = await getWikiContent(titles_dict, redmine, config_wiki);
+    const content = await getWikiContent(titles_dict);
     let content_list = [];
     for (let key of content) {
         if (key.page.text !== undefined && key.page.title !== undefined) {

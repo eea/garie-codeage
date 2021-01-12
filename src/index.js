@@ -102,15 +102,7 @@ const myGetData = async (item) => {
 console.log("Start");
 
 const main = async () => {
-  const config_wiki = {
-    WIKI_APIKEY: config.plugins["code-age"].WIKI_APIKEY,
-    WIKI_SERVER: config.plugins["code-age"].WIKI_SERVER,
-    WIKI_PAGE: config.plugins["code-age"].WIKI_PAGE,
-    WIKI_PROJECT: config.plugins["code-age"].WIKI_PROJECT
-
-  };
-
-  const url_map = await parseWiki(config_wiki);
+  const url_map = await parseWiki();
   config.urls = [];
 
   for (const item of url_map) {
