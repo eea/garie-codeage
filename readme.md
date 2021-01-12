@@ -33,7 +33,7 @@ First clone the repo.
 git clone https://github.com/eea/garie-codeage
 ```
 
-Next setup your config. Be sure that `config.json` doesn't have any websites added to the list of urls, as the 'urls' field will be filled by the plugin.
+Next setup your config. Any websites in the list of urls from config.json will be ignored; the urls will be automatically detected by the plugin from the WIKI_SERVER and WIKI_PAGE env vars.
 
 Once you finished edited your config, let's setup our environment.
 
