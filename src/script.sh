@@ -14,7 +14,7 @@ mkdir -p $report_location
 END=$#
 for ((i=4;i<=END;i++));
 do
-    timeout 1800 docker run --rm srcd/hercules hercules --burndown --pb ${!i} | docker run --rm -i -v $(pwd):/io srcd/hercules labours -f pb -m burndown-project -o $report_location.png >> $report_location/code-age.txt
+    timeout 1800 docker run --rm srcd/hercules hercules --burndown --pb ${!i} | docker run --rm -i -v $(pwd):/io srcd/hercules labours -f pb -m burndown-project -o $report_location.png >> $report_location/code-age.txt 2> /dev/null
     echo $delimiter >> $report_location/code-age.txt
 done
 chmod 777 $report_location/code-age.txt 

@@ -9,7 +9,7 @@
 
 Garie-code-age was developed as a plugin for the [Garie](https://github.com/boyney123/garie) Architecture.
 
-[Garie](https://github.com/boyney123/garie) is an out the box web performance toolkit, and `garie-securityheaders` is a plugin that generates and stores securityheaders data into `InfluxDB`.
+[Garie](https://github.com/boyney123/garie) is an out the box web performance toolkit, and `garie-code-age` is a plugin that generates and stores code age data into `InfluxDB`.
 
 `Garie-code-age` can also be run outside the `Garie` environment and run as standalone.
 
@@ -33,9 +33,9 @@ First clone the repo.
 git clone https://github.com/eea/garie-codeage
 ```
 
-Next setup you're config. Be sure that `config.json` doesn't have any websites added to the list of urls, as the 'urls' field will be filled by the plugin.
+Next setup your config. Be sure that `config.json` doesn't have any websites added to the list of urls, as the 'urls' field will be filled by the plugin.
 
-Once you finished edited your config, lets setup our environment.
+Once you finished edited your config, let's setup our environment.
 
 ```sh
 docker-compose up
