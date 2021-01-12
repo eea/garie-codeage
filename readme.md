@@ -33,7 +33,7 @@ First clone the repo.
 git clone https://github.com/eea/garie-codeage
 ```
 
-Next setup you're config. Be sure that `config.json` doesn't have any websites added to the list of urls, as the 'urls' field will be filled by the plugin.
+Next setup your config. Be sure that `config.json` doesn't have any websites added to the list of urls, as the 'urls' field will be filled by the plugin.
 
 Once you finished edited your config, lets setup our environment.
 
