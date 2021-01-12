@@ -111,7 +111,8 @@ const main = async () => {
   };
 
   const url_map = await parseWiki(config_wiki);
-  
+  config.urls = [];
+
   for (const item of url_map) {
     const obj = {
       url: item.url,
