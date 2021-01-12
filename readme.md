@@ -35,7 +35,7 @@ git clone https://github.com/eea/garie-codeage
 
 Next setup your config. Be sure that `config.json` doesn't have any websites added to the list of urls, as the 'urls' field will be filled by the plugin.
 
-Once you finished edited your config, lets setup our environment.
+Once you finished edited your config, let's setup our environment.
 
 ```sh
 docker-compose up
