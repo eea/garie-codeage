@@ -74,7 +74,7 @@ function getWikiContent(titles_dict) {
 function structureContent(content, page) {
     let detailed_content = {};
     detailed_content.page = page;
-    detailed_content.services = []; // lista de {service location : deployment repo}
+    detailed_content.services = []; // list element: {service location : deployment repo}
     detailed_content.components = [];
     
     const lines = content.toString().split('\n');
@@ -100,7 +100,7 @@ function structureContent(content, page) {
             if (line.includes('github')) {
                 const tokens = line.split(' ');
                 for (let token of tokens) {
-                    // doar repo-urile de github
+                    // keep just github repos
                     if (token.includes('github')) {
                         repos.push(token);
                         break;
@@ -162,15 +162,19 @@ function structureByPage(content_list) {
 }
 
 async function parseWiki() {
-    const all_wiki_pages = await getAllWikiPages();
-    const titles_dict = orderTitles(all_wiki_pages);
-
-    const content = await getWikiContent(titles_dict);
     let content_list = [];
-    for (let key of content) {
-        if (key.page.text !== undefined && key.page.title !== undefined) {
-            content_list.push(structureContent(key.page.text, key.page.title));
+    try {
+        const all_wiki_pages = await getAllWikiPages();
+        const titles_dict = orderTitles(all_wiki_pages);
+        const content = await getWikiContent(titles_dict);
+
+        for (let key of content) {
+            if (key.page.text !== undefined && key.page.title !== undefined) {
+                content_list.push(structureContent(key.page.text, key.page.title));
+            }
         }
+    } catch(err) {
+        console.log(`Error while parsing wiki pages ${err}`);
     }
     return structureByPage(content_list);
 

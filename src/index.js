@@ -34,8 +34,8 @@ function parseFile (file) {
     old_percentage = code_age[keys[i]];
   }
   weighted_sum /= 100;
-  // (0, 365 * 2) = (min, max) - the limits of weighted sum;
   
+  // (0, 365 * 2) = (min, max) - the limits of weighted sum;
   const two_years = 365 * 2;
   weighted_sum = Math.min(weighted_sum, two_years);
   const final_score = 100 * weighted_sum / two_years;
