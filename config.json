@@ -5,6 +5,15 @@
         }
     },
   "urls": [
-    
+    {
+      "url": "https://www.eea.europa.eu/"
+    },
+    {
+      "url": "https://biodiversity.europa.eu/"
+    },
+    {
+      "url": "https://acladmin.eionet.europa.eu/",
+      "plugins": { }
+    }    
   ]
 }
