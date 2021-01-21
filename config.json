@@ -1,7 +1,8 @@
 {
   "plugins":{
         "code-age":{
-            "cron": "0 */4 * * *"
+            "cron": "0 */4 * * *",
+            "numCpus": 1
         }
     },
   "urls": [
