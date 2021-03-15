@@ -1,6 +1,6 @@
 {
     "name": "garie-code-age",
-    "version": "0.0.1",
+    "version": "0.1.2",
     "description": "Garie Code Age",
     "engines": {
         "node": ">=6"
