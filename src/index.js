@@ -46,7 +46,7 @@ function parseFile (file) {
 
 function getResults(file) {
   if (file === undefined) {
-    return { "code-age" : -1 };
+    return { "code-age" : null };
   }
 
   let result = [];
@@ -78,7 +78,7 @@ const myGetData = async (item) => {
     try {
         const { components } = item.url_settings;
         if (components.length < 1) {
-          return resolve({"code-age" : -1});
+          return resolve({"code-age" : null});
         }
         const { reportDir } = item;
 
