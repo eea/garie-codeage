@@ -12,7 +12,7 @@ function parseFile (file) {
 
   let lines = file.toString().split("\n");
   let info_lines = [];
-  for (let i = 0; i < lines.length; i++) {
+  for (let i = 3; i < lines.length; i++) {
     if (lines[i].includes("days")) {
       info_lines.push(lines[i]);
     }
@@ -46,7 +46,7 @@ function parseFile (file) {
 
 function getResults(file) {
   if (file === undefined) {
-    return { "code-age" : null };
+    return;
   }
 
   let result = [];
@@ -73,12 +73,11 @@ const myGetFile = async (options) => {
 
 const myGetData = async (item) => {
   const { url } = item.url_settings;
- 
   return new Promise(async (resolve, reject) => {
     try {
         const { components } = item.url_settings;
         if (components.length < 1) {
-          return resolve({"code-age" : null});
+          return;
         }
         const { reportDir } = item;
 
