@@ -12,7 +12,7 @@ function parseFile (file) {
 
   let lines = file.toString().split("\n");
   let info_lines = [];
-  for (let i = 3; i < lines.length; i++) {
+  for (let i = 7; i < lines.length; i++) {
     if (lines[i].includes("days")) {
       info_lines.push(lines[i]);
     }
@@ -39,7 +39,7 @@ function parseFile (file) {
   const two_years = 365 * 2;
   weighted_sum = Math.min(weighted_sum, two_years);
   const final_score = 100 * weighted_sum / two_years;
-  return final_score;
+  return 100 - final_score;
 
 }
 
