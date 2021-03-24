@@ -117,6 +117,13 @@ const main = async () => {
     config.urls.push(obj);
   }
 
+  console.log(`Number of urls found: ${config.urls.length}`);
+
+  // Check for something fishy
+  if (config.urls.length < 10) {
+    console.log(config.urls);
+  }
+
   try{
     const { app } = await garie_plugin.init({
       getData: myGetData,
