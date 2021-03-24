@@ -77,7 +77,7 @@ const myGetData = async (item) => {
     try {
         const { components } = item.url_settings;
         if (components.length < 1) {
-          return;
+          return resolve();
         }
         const { reportDir } = item;
 
@@ -127,11 +127,11 @@ const main = async () => {
   try{
     const { app } = await garie_plugin.init({
       getData: myGetData,
-      db_name:'code-age',
-      plugin_name:'code-age',
-      report_folder_name:'code-age-results',
+      db_name: 'code-age',
+      plugin_name: 'code-age',
+      report_folder_name: 'code-age-results',
       app_root: path.join(__dirname, '..'),
-      config:config,
+      config: config,
       onDemand: true
     });
     app.listen(3000, () => {
