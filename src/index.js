@@ -77,7 +77,7 @@ const myGetData = async (item) => {
     try {
         const { components } = item.url_settings;
         if (components.length < 1) {
-          return resolve();
+          return resolve(null);
         }
         const { reportDir } = item;
 
