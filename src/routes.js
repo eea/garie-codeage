@@ -142,7 +142,7 @@ function structureContent(content, page) {
 
 
 function structureByPage(content_list) {
-    let url_map = [];
+    let urls = [];
 
     for (const item of content_list) {
         const repos = [];
@@ -155,13 +155,13 @@ function structureByPage(content_list) {
                 repo: element.repo,
                 components: repos
             };
-            url_map.push(service);
+            urls.push(service);
         }
     }
-    return url_map;
+    return urls;
 }
 
-async function parseWiki() {
+async function parseWiki(urls_set) {
     let content_list = [];
     try {
         const all_wiki_pages = await getAllWikiPages();

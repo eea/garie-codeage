@@ -1,4 +1,5 @@
-const garie_plugin = require('garie-plugin')
+const garie_plugin = require('garie-plugin');
+const { url } = require('inspector');
 const path = require('path');
 const config = require('../config');
 const { parseWiki } = require('./routes');
@@ -101,10 +102,21 @@ const myGetData = async (item) => {
 console.log("Start");
 
 const main = async () => {
-  const url_map = await parseWiki();
-  config.urls = [];
 
-  for (const item of url_map) {
+  // create set of urls and filter out the urls from taskman
+  // which are not in this set
+  const urls_set = new Set();
+  for (const item of config.urls) {
+    const whole_url = item.url.split('://')[1];
+    const hostname = whole_url.split('/')[0];
+    urls_set.add(hostname);
+  }
+
+  let urls_parsed = await parseWiki(urls_set);
+  urls_parsed = urls_parsed.filter(item => urls_set.has(item.url.split('://')[1].split('/')[0]));
+
+  const config_urls = [];
+  for (const item of urls_parsed) {
     const obj = {
       url: item.url,
       plugins: {
@@ -114,15 +126,17 @@ const main = async () => {
         }
       }
     };
-    config.urls.push(obj);
+    config_urls.push(obj);
   }
 
-  console.log(`Number of urls found: ${config.urls.length}`);
+  console.log(`Number of urls found: ${config_urls.length}`);
 
   // Check for something fishy
-  if (config.urls.length < 10) {
-    console.log(config.urls);
+  if (config_urls.length < 10) {
+    console.log(config_urls);
   }
+
+  config.urls = config_urls;
 
   try{
     const { app } = await garie_plugin.init({

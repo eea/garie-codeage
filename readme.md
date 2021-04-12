@@ -63,7 +63,7 @@ Ratio of survived lines
 450 days                 0.824211
 ```
 
-Therefore we compute a weighted sum (the difference between 'milestones' multiplied by the number of days) that will ultimately give us an idea of the code age, more specifically an average of the age of a code line. We consider the age limit to be two years (meaning that anything older than two years will remain at two years). The final score is a float between 0 and 100. A score of 0 means a very 'young' code, while a score of 100 means a very 'old' code and hardly updated (as nothing has changed for at least 2 years).
+Therefore we compute a weighted sum (the difference between 'milestones' multiplied by the number of days) that will ultimately give us an idea of the code age, more specifically an average of the age of a code line. We consider the age limit to be two years (meaning that anything older than two years will remain at two years). The final score is a float between 0 and 100. A score of 100 means a very 'young' code, while a score of 0 means a very 'old' code and hardly updated (as nothing has changed for at least 2 years).
 
 For the example above:
 
