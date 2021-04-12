@@ -83,3 +83,5 @@ This score is than added to the respective website in the database.
 - WIKI_PAGE - Applications
 - WIKI_PROJECT - infrastructure
 
+
+For more information please go to the [garie-plugin](https://github.com/eea/garie-plugin) repo
