@@ -90,4 +90,5 @@ MAX_AGE_OF_REPORT_VIDEOS - int (default to 100), Maximum age (in days) of report
 CRON_DELETE_OLD_REPORTS - cronjob (default to '0 5 * * *') The frequency of checking old report files / videos.
 
 
-For more information please go to the [garie-plugin](https://github.com/eea/garie-plugin) repo
+For more information please go to the [garie-plugin](https://github.com/eea/garie-plugin) repo.
+
