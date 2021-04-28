@@ -83,11 +83,18 @@ This score is than added to the respective website in the database.
 - WIKI_PAGE - Applications
 - WIKI_PROJECT - infrastructure
 
-## Config.json
+# config.json
 
-MAX_AGE_OF_REPORT_FILES - int (default to 365), Maximum age (in days) of report files that can be deleted.
-MAX_AGE_OF_REPORT_VIDEOS - int (default to 100), Maximum age (in days) of report videos that can be deleted.
-CRON_DELETE_OLD_REPORTS - cronjob (default to '0 5 * * *') The frequency of checking old report files / videos.
+| Property | Type                | Description                                                                          |
+| -------- | ------------------- | ------------------------------------------------------------------------------------ |
+| `plugins.codeage.cron`   | `string` (optional) | Cron timer. Supports syntax can be found [here].(https://www.npmjs.com/package/cron) |
+| `plugins.codeage.retry`   | `object` (optional) | Configuration how to retry the failed tasks |
+| `plugins.codeage.retry.after`   | `number` (optional, default 30) | Minutes before we retry to execute the tasks |
+| `plugins.codeage.retry.times`   | `number` (optional, default 3) | How many time to retry to execute the failed tasks |
+| `plugins.codeage.retry.timeRange`   | `number` (optional, default 360) | Period in minutes to be checked in influx, to know if a task failed |
+| `plugins.codeage.MAX_AGE_OF_REPORT_FILES`   | `number` (optional, default 365) | Maximum age (in days) of report files that can be deleted. |
+| `plugins.codeage.MAX_AGE_OF_REPORT_VIDEOS`   | `number` (optional, default 100) | Maximum age (in days) of report videos that can be deleted. |
+| `urls`   | `object` (required) | Config for lighthouse. More detail below |
 
 
 For more information please go to the [garie-plugin](https://github.com/eea/garie-plugin) repo.
